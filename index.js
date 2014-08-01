@@ -42,6 +42,7 @@ var EasyXml = function() {
         underscoreAttributes: true,
         underscoreChar: '_',
         rootElement: 'response',
+        excludeRootElement: false,
         dateFormat: 'ISO', // ISO = ISO8601, SQL = MySQL Timestamp, JS = (new Date).toString()
         manifest: false,
         indent: 4
@@ -61,11 +62,19 @@ var EasyXml = function() {
      * Takes an object and returns an XML string
      */
     self.render = function(object, rootElementOverride) {
+
+        var rootElement = rootElementOverride || self.config.rootElement;
         var xml = element(rootElementOverride || self.config.rootElement);
+
+        if(rootElement === null) {
+          xml = element("");
+        }
 
         parseChildElement(xml, object);
 
-        return new ElementTree(xml).write({
+        console.log(xml);
+
+        return new ElementTree(rootElement === null ? xml._children[0] : xml).write({
             xml_declaration: self.config.manifest,
             indent: self.config.indent
         });
