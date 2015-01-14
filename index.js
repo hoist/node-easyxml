@@ -45,7 +45,8 @@ var EasyXml = function() {
         excludeRootElement: false,
         dateFormat: 'ISO', // ISO = ISO8601, SQL = MySQL Timestamp, JS = (new Date).toString()
         manifest: false,
-        indent: 4
+        indent: 4,
+        singularizationOverride: {}
     };
 
     /**
@@ -140,6 +141,9 @@ var EasyXml = function() {
                 } else if (typeof child === 'object' && child.constructor && child.constructor.name && child.constructor.name === 'Array') {
                     // Array
                     var subElementName = inflect.singularize(key);
+                    if(self.config.singularizationOverride[key]) {
+                        subElementName = self.config.singularizationOverride[key];
+                    }
 
                     for (var key2 in child) {
                         // Check type of child element
