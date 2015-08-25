@@ -73,7 +73,7 @@ var EasyXml = function() {
 
         parseChildElement(xml, object);
 
-        console.log(xml);
+        //console.log(xml);
 
         return new ElementTree(rootElement === null ? xml._children[0] : xml).write({
             xml_declaration: self.config.manifest,
